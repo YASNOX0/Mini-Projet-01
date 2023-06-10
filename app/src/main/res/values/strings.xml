@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Mini-Projet-01</string>
+    <string name="load_users">Load Users</string>
+    <string name="quit">Quit</string>
 </resources>
