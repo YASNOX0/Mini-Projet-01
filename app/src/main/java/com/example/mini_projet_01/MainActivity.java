@@ -1,11 +1,12 @@
 package com.example.mini_projet_01;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.RadioButton;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +18,7 @@ import java.io.InputStream;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn_loadUsers, btn_quit;
+    RadioButton rb_males, rb_females;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +26,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         btn_loadUsers = findViewById(R.id.btn_loadUsers);
         btn_quit = findViewById(R.id.btn_quit);
+        rb_males = findViewById(R.id.rb_males);
+        rb_females = findViewById(R.id.rb_females);
 
         btn_loadUsers.setOnClickListener(this);
         btn_quit.setOnClickListener(this);
+
+        rb_males.setChecked(true);
     }
 
     @Override
@@ -45,17 +51,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 jsonString = stringBuilder.toString();
 
-                JSONObject jsonObject = new JSONObject(jsonString);
+                JSONObject jsonObject, user , userName;
+                jsonObject = new JSONObject(jsonString);
                 JSONArray jsonArray = jsonObject.getJSONArray("users");
-                StringBuilder stringBuilderFullName = new StringBuilder();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject user = jsonArray.getJSONObject(i);
-                    JSONObject userName  = user.getJSONObject("name");
-                    String fullName = String.format("%s %s%n", userName.get("first"), userName.get("last"));
+                StringBuilder stringBuilderUserInfo = new StringBuilder();
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                String userCity, userInfo , userGender;
 
-                    stringBuilderFullName.append(fullName);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    user = jsonArray.getJSONObject(i);
+                    userGender = user.get("gender").toString();
+                    userCity = user.get("city").toString();
+                    userName = user.getJSONObject("name");
+                    userInfo = String.format("%s %s | %s%n", userName.get("first"), userName.get("last"), userCity);
+
+                    if (rb_males.isChecked() && userGender.equals("male")) {
+                        builder.setTitle("Male users");
+                        stringBuilderUserInfo.append(userInfo);
+                    } else if (rb_females.isChecked() && userGender.equals("female")) {
+                        builder.setTitle("Female users");
+                        stringBuilderUserInfo.append(userInfo);
+                    }
+
                 }
-                Toast.makeText(this , stringBuilderFullName , Toast.LENGTH_SHORT).show();
+                builder.setMessage(stringBuilderUserInfo).show();
+
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
