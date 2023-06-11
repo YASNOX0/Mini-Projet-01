@@ -46,7 +46,7 @@ public class User {
         this.city = city;
     }
 
-    public String fullName(){
-        return String.format("%s %s ",this.getFirstName() , this.getLastName());
+    public String fullName() {
+        return String.format("%s %s ", this.getFirstName(), this.getLastName());
     }
 }

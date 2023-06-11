@@ -1,13 +1,11 @@
 package com.example.mini_projet_01;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,10 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.equals(btn_loadUsers)) {
-            ArrayAdapter<User> adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_list_item_1,
-                    getUsers());
-            lv_users.setAdapter(adapter);
+            UsersAdapter usersAdapter = new UsersAdapter(this, getUsers());
+            lv_users.setAdapter(usersAdapter);
         } else if (view.equals(btn_quit)) {
             finish();
         }
@@ -70,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject user = jsonArray.getJSONObject(i);
                 JSONObject userName = user.getJSONObject("name");
 
-                userFullNames.add(new User(userName.getString("first") ,
-                        userName.getString("last") ,
-                        user.getString("gender") ,
+                userFullNames.add(new User(userName.getString("first"),
+                        userName.getString("last"),
+                        user.getString("gender"),
                         user.getString("city")));
             }
         } catch (IOException | JSONException e) {
