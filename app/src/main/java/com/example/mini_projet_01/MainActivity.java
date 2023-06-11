@@ -1,10 +1,12 @@
 package com.example.mini_projet_01;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tv_quit;
     ListView lv_users;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_loadUsers.setOnClickListener(this);
         tv_quit.setOnClickListener(this);
+
+        tv_quit.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public void swipeLeft() {
+                finish();
+            }
+
+            @Override
+            public void swipeRight() {
+                Toast.makeText(MainActivity.this, "This action is not yet implemented , if you want to quit the app. please swipe left !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     @Override
@@ -39,10 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.equals(btn_loadUsers)) {
             UsersAdapter usersAdapter = new UsersAdapter(this, getUsers());
             lv_users.setAdapter(usersAdapter);
-        } else if (view.equals(tv_quit)) {
-            finish();
         }
-
     }
 
     private ArrayList<User> getUsers() {
