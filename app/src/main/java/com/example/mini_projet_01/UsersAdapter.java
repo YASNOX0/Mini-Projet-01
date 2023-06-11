@@ -1,11 +1,13 @@
 package com.example.mini_projet_01;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -44,16 +46,17 @@ public class UsersAdapter extends BaseAdapter {
 
         TextView tv_itemUserFullName = view.findViewById(R.id.tv_itemUserFullName);
         TextView tv_itemUserCity = view.findViewById(R.id.tv_itemUserCity);
-        Button btn_itemUserDetails = view.findViewById(R.id.btn_itemUserDetails);
+        ImageButton btn_itemUserDetails = view.findViewById(R.id.btn_itemUserDetails);
 
         tv_itemUserFullName.setText(user.fullName());
         tv_itemUserCity.setText(user.getCity());
         btn_itemUserDetails.setOnClickListener(view1 -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(String.format("Details of user %d", i + 1));
-            builder.setMessage(user.toString());
-            builder.show();
-
+            Intent intent = new Intent(context, UserInfos.class);
+            intent.putExtra("firstName", user.getFirstName());
+            intent.putExtra("lastName", user.getLastName());
+            intent.putExtra("gender", user.getGender());
+            intent.putExtra("city" , user.getCity());
+            context.startActivity(intent);
         });
 
         return view;
