@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.equals(btn_loadUsers)) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+            ArrayAdapter<User> adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1,
                     getUsers());
             lv_users.setAdapter(adapter);
@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private ArrayList<String> getUsers() {
+    private ArrayList<User> getUsers() {
 
-        ArrayList<String> userFullNames = new ArrayList<>();
+        ArrayList<User> userFullNames = new ArrayList<>();
 
         try (InputStream inputStream = getAssets().open("users.json")) {
 
@@ -70,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject user = jsonArray.getJSONObject(i);
                 JSONObject userName = user.getJSONObject("name");
 
-                userFullNames.add(String.format("%s %s%n", userName.get("first"), userName.get("last")));
+                userFullNames.add(new User(userName.getString("first") ,
+                        userName.getString("last") ,
+                        user.getString("gender") ,
+                        user.getString("city")));
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
