@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +18,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button btn_loadUsers, btn_quit;
+    Button btn_loadUsers;
+    TextView tv_quit;
     ListView lv_users;
 
     @Override
@@ -25,11 +27,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn_loadUsers = findViewById(R.id.btn_loadUsers);
-        btn_quit = findViewById(R.id.btn_quit);
+        tv_quit = findViewById(R.id.tv_quit);
         lv_users = findViewById(R.id.lv_users);
 
         btn_loadUsers.setOnClickListener(this);
-        btn_quit.setOnClickListener(this);
+        tv_quit.setOnClickListener(this);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view.equals(btn_loadUsers)) {
             UsersAdapter usersAdapter = new UsersAdapter(this, getUsers());
             lv_users.setAdapter(usersAdapter);
-        } else if (view.equals(btn_quit)) {
+        } else if (view.equals(tv_quit)) {
             finish();
         }
 

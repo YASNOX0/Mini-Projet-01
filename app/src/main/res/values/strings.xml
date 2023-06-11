@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Mini-Projet-01</string>
     <string name="load_users">Load Users</string>
-    <string name="quit">Quit</string>
+    <string name="quit">Swipe left to quit</string>
     <string name="full_name">Full Name</string>
     <string name="city">City</string>
     <string name="gender">Gender</string>
