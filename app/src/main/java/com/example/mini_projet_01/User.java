@@ -1,5 +1,7 @@
 package com.example.mini_projet_01;
 
+import androidx.annotation.NonNull;
+
 public class User {
 
     private String firstName;
@@ -48,5 +50,14 @@ public class User {
 
     public String fullName() {
         return String.format("%s %s ", this.getFirstName(), this.getLastName());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format("Hi , i'm %s, i'm a %s.%nI live in %s.",
+                this.firstName,
+                this.getGender().equals("male") ? "♂" : "♀",
+                this.getCity());
     }
 }
