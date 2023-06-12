@@ -6,4 +6,6 @@
     <string name="city">City</string>
     <string name="gender">Gender</string>
     <string name="details">Details</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
 </resources>

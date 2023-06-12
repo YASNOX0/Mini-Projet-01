@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.equals(btn_loadUsers)) {
-            UsersAdapter usersAdapter = new UsersAdapter(this, getUsers());
+            UsersAdapter usersAdapter = new UsersAdapter(this, getUsers(), getSupportFragmentManager());
             lv_users.setAdapter(usersAdapter);
         }
     }
