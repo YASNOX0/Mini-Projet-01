@@ -3,12 +3,15 @@ package com.example.mini_projet_01;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +26,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_loadUsers;
     TextView tv_quit;
     ListView lv_users;
+    ConstraintLayout cl_users;
+    ProgressBar progressBar;
+    private static final int PROGRESS_BAR_ID = 123;
+    private boolean isRetrievingData = false;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_loadUsers = findViewById(R.id.btn_loadUsers);
         tv_quit = findViewById(R.id.tv_quit);
         lv_users = findViewById(R.id.lv_users);
+        cl_users = findViewById(R.id.cl_users);
 
         btn_loadUsers.setOnClickListener(this);
         tv_quit.setOnClickListener(this);
@@ -43,15 +51,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        progressBar = new ProgressBar(this, null, android.R.attr.progressBarStyleLarge);
+        progressBar.setIndeterminate(true);
+        progressBar.setId(PROGRESS_BAR_ID);
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+        progressBar.setLayoutParams(params);
+
     }
 
     @Override
     public void onClick(View view) {
-        if (view.equals(btn_loadUsers)) {
-            UsersAdapter usersAdapter = new UsersAdapter(this, getUsers());
-            lv_users.setAdapter(usersAdapter);
+        if (view.equals(btn_loadUsers) && !isRetrievingData) {
+            RetrieveUsers retrieveUsers = new RetrieveUsers();
+            retrieveUsers.start();
+
+            isRetrievingData = true;
+
+            cl_users.addView(progressBar);
+
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(cl_users);
+            constraintSet.connect(progressBar.getId(), ConstraintSet.TOP, btn_loadUsers.getId(), ConstraintSet.BOTTOM, 0);
+            constraintSet.connect(progressBar.getId(), ConstraintSet.BOTTOM, tv_quit.getId(), ConstraintSet.TOP, 0);
+            constraintSet.connect(progressBar.getId(), ConstraintSet.START, cl_users.getId(), ConstraintSet.START, 0);
+            constraintSet.connect(progressBar.getId(), ConstraintSet.END, cl_users.getId(), ConstraintSet.END, 0);
+            constraintSet.applyTo(cl_users);
         }
     }
+
 
     private ArrayList<User> getUsers() {
 
@@ -76,14 +107,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 JSONObject user = jsonArray.getJSONObject(i);
                 JSONObject userName = user.getJSONObject("name");
 
+                Thread.sleep(250);
                 userFullNames.add(new User(userName.getString("first"),
                         userName.getString("last"),
                         user.getString("gender"),
                         user.getString("city")));
             }
-        } catch (IOException | JSONException e) {
+        } catch (IOException | JSONException | InterruptedException e) {
             e.printStackTrace();
         }
         return userFullNames;
+    }
+
+    class RetrieveUsers extends Thread {
+        @Override
+        public void run() {
+            getUsers();
+            runOnUiThread(() -> {
+                UsersAdapter usersAdapter = new UsersAdapter(MainActivity.this, getUsers());
+                lv_users.setAdapter(usersAdapter);
+                cl_users.removeView(progressBar);
+            });
+        }
+
     }
 }
