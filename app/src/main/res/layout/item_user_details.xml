@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_itemUserDetails"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,6 +11,7 @@
         android:id="@+id/tv_itemUserDetailsFirstName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/first_name"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:gravity="center"
         android:text="@string/last_name"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,11 +37,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:gravity="center"
         android:text="@string/city"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_itemUserDetailsLastName" />
+
+    <ImageView
+        android:id="@+id/iv_itemUserDetailsImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_itemUserDetailsCity"
+        app:srcCompat="@drawable/ic_launcher_background"
+        tools:ignore="ContentDescription,ImageContrastCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ public class User {
     private String lastName;
     private String gender;
     private String city;
+    private String image;
 
     public String getFirstName() {
         return firstName;
@@ -41,11 +42,20 @@ public class User {
         this.city = city;
     }
 
-    public User(String firstName, String lastName, String gender, String city) {
+    public String getImage() {
+        return this.image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public User(String firstName, String lastName, String gender, String city, String image) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.city = city;
+        this.image = image;
     }
 
     public String fullName() {
